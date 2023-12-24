@@ -14,10 +14,12 @@ public:
 public slots:
     void LeftMouse(Block *clickedBlock);
     void RightMouse(Block *clickedBlock);
+    void resetGame();
 signals:
 
 private:
     Block *block[10][10];
+
 
 };
 

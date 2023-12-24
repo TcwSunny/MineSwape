@@ -1,8 +1,22 @@
 #include "Scene.h"
+#include <ClickableTextItem.h>
 #include <QRandomGenerator>
 
 Scene::Scene(QObject *parent) : QGraphicsScene(parent)
 {
+    ClickableTextItem *clickableText = new ClickableTextItem();
+    clickableText->setPos(70,0); // Adjust the position as needed
+    QFont font;
+    font.setPointSize(20);  // Set the font size to 16
+    font.setBold(true);
+    clickableText->setFont(font);
+    QColor textColor(Qt::black); // Example: White text color
+    clickableText->setDefaultTextColor(textColor);
+    QString TextStr = QString("Start");
+    clickableText->setPlainText(TextStr);
+    addItem(clickableText);
+    connect(clickableText, &ClickableTextItem::textClicked, this, &Scene::resetGame);
+
     for (int i = 0; i < 10; ++i) {
         for (int j = 0; j < 10; ++j) {
             block[i][j] = new Block(i , j);
@@ -14,6 +28,7 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent)
         }
     }
     setAllBomb(10);
+    connect(clickableText, &ClickableTextItem::textClicked, this, &Scene::resetGame);
 }
 
 void Scene::setAllBomb(int BombCount)
@@ -94,6 +109,37 @@ void Scene::RightMouse(Block *clickedBlock)
         clickedBlock->setBrush(newBrush);
         clickedBlock->update();
     }
+}
+
+void Scene::resetGame()
+{
+    clear();
+
+    ClickableTextItem *clickableText = new ClickableTextItem();
+    clickableText->setPos(70,0); // Adjust the position as needed
+    QFont font;
+    font.setPointSize(20);  // Set the font size to 16
+    font.setBold(true);
+    clickableText->setFont(font);
+    QColor textColor(Qt::black); // Example: White text color
+    clickableText->setDefaultTextColor(textColor);
+    QString TextStr = QString("Start");
+    clickableText->setPlainText(TextStr);
+    addItem(clickableText);
+    connect(clickableText, &ClickableTextItem::textClicked, this, &Scene::resetGame);
+
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+            block[i][j] = new Block(i , j);
+            block[i][j]->setX(i);
+            block[i][j]->setY(j);
+            addItem(block[i][j]);
+            connect(block[i][j], &Block::Left, this, &Scene::LeftMouse);
+            connect(block[i][j], &Block::Right, this, &Scene::RightMouse);
+        }
+    }
+    setAllBomb(10);
+    connect(clickableText, &ClickableTextItem::textClicked, this, &Scene::resetGame);
 }
 
 

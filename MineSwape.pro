@@ -11,12 +11,14 @@ CONFIG += c++17
 SOURCES += \
     Block.cpp \
     Scene.cpp \
+    clickabletextitem.cpp \
     main.cpp \
     widget.cpp
 
 HEADERS += \
     Block.h \
     Scene.h \
+    clickabletextitem.h \
     widget.h
 
 FORMS += \
